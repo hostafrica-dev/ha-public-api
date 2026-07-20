@@ -2,7 +2,7 @@
     "openapi": "3.0.2",
     "info": {
         "title": "HostAfricaApi",
-        "version": "2026-01-01",
+        "version": "1.1.0 - 2026-07-16",
         "description": "HostAfrica’s Public API provides reliable, programmatic control over VPS services with a broad set of industry-standard API developer tools. \nAs well as a RESTful API we provide a CLI and SDKs for a variety of languages as automation building blocks and a streamable MCP server for agent-driven, context-aware automation.\n\n## Authentication\nAuthentication is token-based and all endpoints require a Bearer token in the `Authorization` header:\n```\nAuthorization: Bearer <your-token>\n```\n\n\nAPI base URL is https://api.hostafrica.com/\n\n## Token generation\nYou can obtain a token for the API by logging into https://hcode.hostafrica.com with your HostAfrica account.\nThe token will have the same privileges as the owning client. You can also rotate or revoke a token at any time in the same section.\n\n## Rate Limiting\nThe number of requests to the API per time period is limited. If you exceed this limit you will receive a `429 Too Many Requests` error.\nOur provided SDKs and CLI will automatically retry certain requests and these settings can be overridden.\nYour IP address may get temporarily blocked if you exceed the rate limit too often.\n\n## Error Handling\nStandard HTTP status code responses are returned for requests and the JSON response body contains human-readable messages for both successful and failed requests. \n\n## Developer Tools\nWe provide repositories with SDKs and code examples for a variety of languages, a CLI and a streamble MCP server.\n- CLI: https://github.com/hostafrica/ha-cli\n- Node/TypeScript: https://github.com/hostafrica-dev/ha-sdk-typescript\n- Python: https://github.com/hostafrica/ha-sdk-python\n- Go: https://github.com/hostafrica/ha-sdk-go\n- PHP: https://github.com/hostafrica/ha-sdk-php\n- Java: https://github.com/hostafrica/ha-sdk-java (coming soon)\n- C#: https://github.com/hostafrica/ha-sdk-csharp (coming soon)\n- Ruby: https://github.com/hostafrica/ha-sdk-ruby (coming soon)\n- Rust: https://github.com/hostafrica/ha-sdk-rust (coming soon)\n- Postman collection: https://api.hostafrica.com/docs/hostafrica-api.postman-collection.json\n\n## MCP Server\nWe provide a streamable MCP server that can be used to interact with the API. The endpoint is https://api.hostafrica.com/mcp and it uses the same authentication mechanism as the API.\n\n## Changelog\nWe will provide a changelog for the API with each major release.\n\n\n\n\n\n### Support and Feedback\nFor questions, bugs and feature requests specifically related to the API please create an issue[link] or discussion[link] on the repository.\n\nFor general support and feedback, please contact us at support@hostafrica.com.",
         "x-scalar-sdk-installation": [
             {
@@ -109,6 +109,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/InvalidStateErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
                                 }
                             }
                         }
@@ -345,6 +355,16 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "TooManyRequestsError 429 response",
                         "headers": {
@@ -401,9 +421,1052 @@
                 ]
             }
         },
+        "/domain/check-availability": {
+            "post": {
+                "description": "Checks domain name availability for a single domain or a comma-separated batch. Exactly one of domain or domains must be provided. Returns pricing, suggestions, and register_url scoped to the requested currency.",
+                "operationId": "CheckDomainAvailability",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CheckDomainAvailabilityRequestContent"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "CheckDomainAvailability 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CheckDomainAvailabilityResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/get-domain": {
+            "post": {
+                "description": "Gets details for an owned domain.",
+                "operationId": "GetDomain",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetDomainRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "GetDomain 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetDomainResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/get-domain-contacts": {
+            "post": {
+                "description": "Retrieves WHOIS contact information for an owned domain. Contact field names vary by TLD and registrar; use the returned structure when building custom contact update payloads.",
+                "operationId": "GetDomainContacts",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetDomainContactsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "GetDomainContacts 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetDomainContactsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/list-domains": {
+            "post": {
+                "description": "List all domains belonging to the authenticated client.",
+                "operationId": "ListDomains",
+                "responses": {
+                    "200": {
+                        "description": "ListDomains 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListDomainsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/list-domains-requiring-data": {
+            "post": {
+                "description": "Lists domains belonging to the authenticated client that require additional registrar or contact data.",
+                "operationId": "ListDomainsRequiringData",
+                "responses": {
+                    "200": {
+                        "description": "ListDomainsRequiringData 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListDomainsRequiringDataResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/save-domain-required-data": {
+            "post": {
+                "description": "Saves additional registrar field values for a pending domain. Keys must match additionalFields[].name from list-domains-requiring-data.",
+                "operationId": "SaveDomainRequiredData",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SaveDomainRequiredDataRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "SaveDomainRequiredData 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SaveDomainRequiredDataResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/suggest": {
+            "post": {
+                "description": "Generates AI-powered domain name suggestions from a natural-language description. Returns suggested domains with availability status and pricing.",
+                "operationId": "SuggestDomains",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SuggestDomainsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "SuggestDomains 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuggestDomainsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/update-domain-settings": {
+            "post": {
+                "description": "Updates a single domain setting (auto-renew, ID protection, or paid addons). One setting per request.",
+                "operationId": "UpdateDomainSettings",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateDomainSettingsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "UpdateDomainSettings 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateDomainSettingsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
         "/vps/cancel": {
             "post": {
-                "description": "Cancels a VPS service through WHMCS. This action is irreversible",
+                "description": "Cancels a VPS service. This action is irreversible",
                 "operationId": "CancelVps",
                 "requestBody": {
                     "content": {
@@ -2692,6 +3755,16 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "TooManyRequestsError 429 response",
                         "headers": {
@@ -2809,6 +3882,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
                                 }
                             }
                         }
@@ -3710,6 +4793,16 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "TooManyRequestsError 429 response",
                         "headers": {
@@ -4335,6 +5428,16 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "TooManyRequestsError 429 response",
                         "headers": {
@@ -4855,6 +5958,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/InvalidStateErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
                                 }
                             }
                         }
@@ -5383,6 +6496,16 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "TooManyRequestsError 429 response",
                         "headers": {
@@ -5514,6 +6637,16 @@
                             }
                         }
                     },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "TooManyRequestsError 429 response",
                         "headers": {
@@ -5641,6 +6774,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/InvalidStateErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
                                 }
                             }
                         }
@@ -7187,7 +8330,7 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "description": "WHMCS product identifier",
+                        "description": "Product identifier",
                         "format": "int32"
                     },
                     "name": {
@@ -7245,6 +8388,38 @@
                     "requires_hostname",
                     "type",
                     "use_plans"
+                ]
+            },
+            "CheckDomainAvailabilityRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain": {
+                        "type": "string",
+                        "description": "A single domain name to look up, e.g. \"example.co.za\". Required unless domains is provided."
+                    },
+                    "domains": {
+                        "type": "string",
+                        "description": "Comma-separated list of domain names for a batch check. Required unless domain is provided."
+                    },
+                    "currency": {
+                        "type": "string",
+                        "description": "Currency for pricing. Accepts ISO code, symbol, country name, or numeric ID. Defaults to ZAR."
+                    }
+                }
+            },
+            "CheckDomainAvailabilityResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/DomainSearchResponseData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
                 ]
             },
             "CompressionMethod": {
@@ -7547,9 +8722,8 @@
                         "format": "int32"
                     },
                     "domain_id": {
-                        "type": "integer",
-                        "description": "Domain identifier",
-                        "format": "int32"
+                        "type": "string",
+                        "description": "Domain identifier"
                     },
                     "domain": {
                         "type": "string",
@@ -7614,7 +8788,7 @@
                 "properties": {
                     "pid": {
                         "type": "integer",
-                        "description": "WHMCS product ID",
+                        "description": "Product ID",
                         "format": "int32"
                     },
                     "billing_cycle": {
@@ -7660,7 +8834,7 @@
                     },
                     "pid": {
                         "type": "integer",
-                        "description": "WHMCS product ID",
+                        "description": "Product ID",
                         "format": "int32"
                     },
                     "name": {
@@ -7904,7 +9078,7 @@
                     "relid": {
                         "type": "integer",
                         "minimum": 1,
-                        "description": "Related service id matching the zone type (tblhosting.id, tblhostingaddons.id or tbldomains.id)",
+                        "description": "Related service id matching the zone type (hosting, addon, or domain)",
                         "format": "int32"
                     },
                     "ip": {
@@ -8079,9 +9253,8 @@
                         "description": "Service ID - must be sent as a string"
                     },
                     "backup_id": {
-                        "type": "integer",
-                        "description": "Backup ID to delete",
-                        "format": "int32"
+                        "type": "string",
+                        "description": "Backup ID to delete"
                     }
                 },
                 "required": [
@@ -8326,6 +9499,345 @@
                 "required": [
                     "data",
                     "status"
+                ]
+            },
+            "DomainAddons": {
+                "type": "object",
+                "description": "Optional add-ons available for a domain",
+                "properties": {
+                    "dnsmanagement": {
+                        "type": "boolean"
+                    },
+                    "emailforwarding": {
+                        "type": "boolean"
+                    },
+                    "idprotection": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "DomainAvailabilityResult": {
+                "type": "object",
+                "description": "Availability record for a single domain",
+                "properties": {
+                    "domain": {
+                        "type": "string",
+                        "description": "Fully qualified domain name"
+                    },
+                    "premium": {
+                        "type": "boolean",
+                        "description": "Whether the domain is a premium domain"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Availability status: \"available\" or \"unavailable\""
+                    },
+                    "addons": {
+                        "$ref": "#/components/schemas/DomainAddons"
+                    },
+                    "pricing": {
+                        "$ref": "#/components/schemas/DomainPricing"
+                    },
+                    "requires_additional_info": {
+                        "type": "boolean",
+                        "description": "Whether the domain requires additional registration information"
+                    },
+                    "additional_info": {
+                        "description": "Opaque additional registration data from upstream"
+                    },
+                    "group": {
+                        "type": "string",
+                        "description": "Product group from upstream"
+                    },
+                    "register_url": {
+                        "type": "string",
+                        "description": "Checkout URL for available domains, enriched server-side"
+                    }
+                },
+                "required": [
+                    "domain",
+                    "status"
+                ]
+            },
+            "DomainHostingLink": {
+                "type": "object",
+                "description": "Linked hosting service for a domain",
+                "properties": {
+                    "hosting_id": {
+                        "type": "integer",
+                        "description": "Linked hosting service id",
+                        "format": "int32"
+                    },
+                    "module": {
+                        "type": "string",
+                        "description": "Hosting module name (e.g. cpanel)"
+                    }
+                },
+                "required": [
+                    "hosting_id",
+                    "module"
+                ]
+            },
+            "DomainInfo": {
+                "type": "object",
+                "description": "Summary of an owned domain returned by list operations",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Domain operation type (e.g. Register, Transfer)"
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": "Fully qualified domain name"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Domain status (e.g. Active, Expired, Cancelled)"
+                    },
+                    "period": {
+                        "type": "integer",
+                        "description": "Registration or billing period in years",
+                        "format": "int32"
+                    },
+                    "donotrenew": {
+                        "type": "integer",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Renewal flag: 0 = renew, 1 = do not renew",
+                        "format": "int32"
+                    },
+                    "id_protection": {
+                        "type": "integer",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "WHOIS privacy enabled: 0 = off, 1 = on",
+                        "format": "int32"
+                    },
+                    "id_protection_supported": {
+                        "type": "boolean",
+                        "description": "Whether the TLD supports ID protection"
+                    },
+                    "recurringamount": {
+                        "type": "string",
+                        "description": "Recurring amount as a decimal string (e.g. \"149.99\")"
+                    },
+                    "expirydate": {
+                        "type": "string",
+                        "description": "Domain expiry date (YYYY-MM-DD)"
+                    },
+                    "nextinvoicedate": {
+                        "type": "string",
+                        "description": "Next invoice date (YYYY-MM-DD)"
+                    },
+                    "nextduedate": {
+                        "type": "string",
+                        "description": "Next due date (YYYY-MM-DD)"
+                    },
+                    "has_hosting": {
+                        "$ref": "#/components/schemas/DomainHostingLink"
+                    },
+                    "has_dns_manager_zone": {
+                        "type": "boolean",
+                        "description": "Whether a DNS Manager zone exists for this domain name"
+                    },
+                    "evaluation": {
+                        "description": "Domain evaluator result when enabled; null when unavailable"
+                    }
+                },
+                "required": [
+                    "domain",
+                    "domain_id",
+                    "donotrenew",
+                    "has_dns_manager_zone",
+                    "id_protection",
+                    "id_protection_supported",
+                    "period",
+                    "recurringamount",
+                    "status",
+                    "type"
+                ]
+            },
+            "DomainPricing": {
+                "type": "object",
+                "description": "Registration, renewal and transfer pricing tiers for a domain",
+                "properties": {
+                    "domainregister": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DomainPricingEntry"
+                        }
+                    },
+                    "domainrenew": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DomainPricingEntry"
+                        }
+                    },
+                    "domaintransfer": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DomainPricingEntry"
+                        }
+                    }
+                }
+            },
+            "DomainPricingEntry": {
+                "type": "object",
+                "description": "A single period/price pair for domain pricing",
+                "properties": {
+                    "period": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "price": {
+                        "type": "string",
+                        "description": "Price as a decimal string with two decimal places"
+                    }
+                },
+                "required": [
+                    "period",
+                    "price"
+                ]
+            },
+            "DomainRequiredFields": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "string"
+                },
+                "description": "Registrar field values keyed by additionalFields[].name"
+            },
+            "DomainRequiringDataAdditionalField": {
+                "type": "object",
+                "description": "Additional registrar field required for a pending domain",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Field key to use when saving additional domain data"
+                    },
+                    "displayname": {
+                        "type": "string",
+                        "description": "Human-readable label for the field"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Input type (e.g. text)"
+                    },
+                    "required": {
+                        "type": "boolean",
+                        "description": "Whether the field must be provided"
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "Current value; empty when not yet supplied"
+                    }
+                },
+                "required": [
+                    "displayname",
+                    "name",
+                    "required",
+                    "type",
+                    "value"
+                ]
+            },
+            "DomainRequiringDataInfo": {
+                "type": "object",
+                "description": "Pending domain requiring additional registrar or contact data",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id"
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": "Fully qualified domain name"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Domain status (e.g. Pending)"
+                    },
+                    "domain_type": {
+                        "type": "string",
+                        "description": "Domain operation type (e.g. Register)"
+                    },
+                    "tld": {
+                        "type": "string",
+                        "description": "Top-level domain suffix (e.g. .co.za)"
+                    },
+                    "additionalFields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DomainRequiringDataAdditionalField"
+                        },
+                        "description": "Additional registrar fields required for this TLD"
+                    }
+                },
+                "required": [
+                    "additionalFields",
+                    "domain",
+                    "domain_id",
+                    "domain_type",
+                    "status",
+                    "tld"
+                ]
+            },
+            "DomainSearchResponseData": {
+                "type": "object",
+                "description": "Response data for domain availability and suggestion operations",
+                "properties": {
+                    "domains": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DomainAvailabilityResult"
+                        },
+                        "description": "Domain availability results"
+                    },
+                    "suggestions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Alternative domain suggestions (single-domain lookup only)"
+                    },
+                    "currency": {
+                        "type": "integer",
+                        "description": "Upstream currency identifier",
+                        "format": "int32"
+                    },
+                    "currency_code": {
+                        "type": "string",
+                        "description": "ISO currency code for the quoted prices"
+                    },
+                    "currency_note": {
+                        "type": "string",
+                        "description": "Note that prices and register_url are valid only for currency_code"
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Non-fatal warnings the client should be aware of"
+                    }
+                },
+                "required": [
+                    "currency",
+                    "currency_code",
+                    "currency_note",
+                    "domains"
+                ]
+            },
+            "DomainSettingKey": {
+                "type": "string",
+                "description": "Allowed domain setting keys for update-domain-settings",
+                "enum": [
+                    "donotrenew",
+                    "idprotection",
+                    "dnsmanagement",
+                    "emailforwarding"
                 ]
             },
             "EditBackupScheduleRequestContent": {
@@ -8621,6 +10133,104 @@
                     "status"
                 ]
             },
+            "GetDomainContactsData": {
+                "type": "object",
+                "description": "Domain contact information returned by get-domain-contacts",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id"
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": "Fully qualified domain name"
+                    },
+                    "contacts": {
+                        "description": "Contact roles keyed by Registrant, Admin, Tech, and Billing, or an array of contact records. Inner field names and values vary by TLD/registrar."
+                    }
+                },
+                "required": [
+                    "contacts",
+                    "domain",
+                    "domain_id",
+                    "message"
+                ]
+            },
+            "GetDomainContactsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id - must be sent as a string"
+                    }
+                },
+                "required": [
+                    "domain_id"
+                ]
+            },
+            "GetDomainContactsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/GetDomainContactsData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "GetDomainData": {
+                "type": "object",
+                "description": "Response data for get-domain",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "domain": {
+                        "$ref": "#/components/schemas/DomainInfo"
+                    }
+                },
+                "required": [
+                    "domain",
+                    "message"
+                ]
+            },
+            "GetDomainRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id - must be sent as a string"
+                    }
+                },
+                "required": [
+                    "domain_id"
+                ]
+            },
+            "GetDomainResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/GetDomainData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
             "GetNoVncConsoleRequestContent": {
                 "type": "object",
                 "properties": {
@@ -8779,6 +10389,109 @@
                     },
                     "data": {
                         "$ref": "#/components/schemas/ServiceBackupsResponseData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "ListDomainsData": {
+                "type": "object",
+                "description": "List domains response data",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "domains": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DomainInfo"
+                        },
+                        "description": "Domains owned by the authenticated client"
+                    },
+                    "domain_warranty": {
+                        "type": "boolean",
+                        "description": "Whether ID-protection warranty is enabled for the account"
+                    },
+                    "domain_warranty_rename": {
+                        "type": "string",
+                        "description": "Domain warranty rename setting when configured"
+                    },
+                    "domain_evaluation_available": {
+                        "type": "boolean",
+                        "description": "Whether domain evaluation is available for the account"
+                    },
+                    "total_count": {
+                        "type": "integer",
+                        "description": "Total number of domains returned",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "domain_evaluation_available",
+                    "domain_warranty",
+                    "domains",
+                    "message",
+                    "total_count"
+                ]
+            },
+            "ListDomainsRequiringDataData": {
+                "type": "object",
+                "description": "Domains requiring additional registrar or contact data",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "domains": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DomainRequiringDataInfo"
+                        },
+                        "description": "Pending domains needing additional registrar or contact data"
+                    },
+                    "total_count": {
+                        "type": "integer",
+                        "description": "Count of domains returned",
+                        "format": "int32"
+                    },
+                    "requires_additional_fields": {
+                        "type": "boolean",
+                        "description": "True when any domain has missing required fields"
+                    }
+                },
+                "required": [
+                    "domains",
+                    "message",
+                    "requires_additional_fields",
+                    "total_count"
+                ]
+            },
+            "ListDomainsRequiringDataResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/ListDomainsRequiringDataData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "ListDomainsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/ListDomainsData"
                     }
                 },
                 "required": [
@@ -9842,7 +11555,7 @@
                     },
                     "relid": {
                         "type": "integer",
-                        "description": "Related service id (tblhosting.id / tblhostingaddons.id / tbldomains.id)",
+                        "description": "Related service id for the zone type (hosting, addon, or domain)",
                         "format": "int32"
                     },
                     "serverid": {
@@ -10062,6 +11775,55 @@
                     },
                     "data": {
                         "$ref": "#/components/schemas/VpsSimpleActionResponseData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "SaveDomainRequiredDataData": {
+                "type": "object",
+                "description": "Response data for save-domain-required-data",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id"
+                    }
+                },
+                "required": [
+                    "domain_id",
+                    "message"
+                ]
+            },
+            "SaveDomainRequiredDataRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id - must be sent as a string"
+                    },
+                    "fields": {
+                        "$ref": "#/components/schemas/DomainRequiredFields"
+                    }
+                },
+                "required": [
+                    "domain_id",
+                    "fields"
+                ]
+            },
+            "SaveDomainRequiredDataResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/SaveDomainRequiredDataData"
                     }
                 },
                 "required": [
@@ -10482,6 +12244,37 @@
                     "status"
                 ]
             },
+            "SuggestDomainsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "prompt": {
+                        "type": "string",
+                        "description": "Natural-language description of the business or idea, e.g. \"my coffee shop\""
+                    },
+                    "currency": {
+                        "type": "string",
+                        "description": "Currency for pricing. Accepts ISO code, symbol, country name, or numeric ID. Defaults to ZAR."
+                    }
+                },
+                "required": [
+                    "prompt"
+                ]
+            },
+            "SuggestDomainsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/DomainSearchResponseData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
             "TooManyRequestsErrorResponseContent": {
                 "type": "object",
                 "properties": {
@@ -10561,6 +12354,88 @@
                 "required": [
                     "data",
                     "message"
+                ]
+            },
+            "UpdateDomainSettingsData": {
+                "type": "object",
+                "description": "Response data for update-domain-settings",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id as returned by upstream"
+                    },
+                    "setting": {
+                        "$ref": "#/components/schemas/DomainSettingKey"
+                    },
+                    "value": {
+                        "type": "boolean",
+                        "description": "Boolean value requested"
+                    },
+                    "requires_payment": {
+                        "type": "boolean",
+                        "description": "True when payment must be completed before a paid addon is enabled"
+                    },
+                    "invoice_id": {
+                        "type": "integer",
+                        "description": "Invoice id when requires_payment is true",
+                        "format": "int32"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "description": "Invoice amount in client currency when requires_payment is true",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "domain_id",
+                    "message",
+                    "requires_payment",
+                    "setting",
+                    "value"
+                ]
+            },
+            "UpdateDomainSettingsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id - must be sent as a string"
+                    },
+                    "setting": {
+                        "$ref": "#/components/schemas/DomainSettingKey"
+                    },
+                    "value": {
+                        "type": "boolean",
+                        "description": "New boolean value"
+                    },
+                    "gateway": {
+                        "type": "string",
+                        "description": "Payment gateway slug when enabling a paid addon (e.g. stripe)"
+                    }
+                },
+                "required": [
+                    "domain_id",
+                    "setting",
+                    "value"
+                ]
+            },
+            "UpdateDomainSettingsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/UpdateDomainSettingsData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
                 ]
             },
             "UpdateFirewallRuleRequestContent": {
@@ -11149,7 +13024,7 @@
                 "properties": {
                     "pid": {
                         "type": "integer",
-                        "description": "WHMCS product ID",
+                        "description": "Product ID",
                         "format": "int32"
                     },
                     "billing_cycle": {
@@ -11861,6 +13736,10 @@
         {
             "name": "DNS",
             "description": "Manage reverse DNS (rDNS) records that map IP addresses assigned to your services back to hostnames."
+        },
+        {
+            "name": "Domains",
+            "description": "Check domain availability and generate AI-powered domain name suggestions. Public MCP tools — no account required."
         },
         {
             "name": "Firewall",
