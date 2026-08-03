@@ -3,7 +3,7 @@
     "info": {
         "title": "HostAfricaApi",
         "version": "1.1.0 - 2026-07-16",
-        "description": "HostAfrica’s Public API provides reliable, programmatic control over VPS services with a broad set of industry-standard API developer tools. \nAs well as a RESTful API we provide a CLI and SDKs for a variety of languages as automation building blocks and a streamable MCP server for agent-driven, context-aware automation.\n\n## Authentication\nAuthentication is token-based and all endpoints require a Bearer token in the `Authorization` header:\n```\nAuthorization: Bearer <your-token>\n```\n\n\nAPI base URL is https://api.hostafrica.com/\n\n## Token generation\nYou can obtain a token for the API by logging into https://hcode.hostafrica.com with your HostAfrica account.\nThe token will have the same privileges as the owning client. You can also rotate or revoke a token at any time in the same section.\n\n## Rate Limiting\nThe number of requests to the API per time period is limited. If you exceed this limit you will receive a `429 Too Many Requests` error.\nOur provided SDKs and CLI will automatically retry certain requests and these settings can be overridden.\nYour IP address may get temporarily blocked if you exceed the rate limit too often.\n\n## Error Handling\nStandard HTTP status code responses are returned for requests and the JSON response body contains human-readable messages for both successful and failed requests. \n\n## Developer Tools\nWe provide repositories with SDKs and code examples for a variety of languages, a CLI and a streamble MCP server.\n- CLI: https://github.com/hostafrica/ha-cli\n- Node/TypeScript: https://github.com/hostafrica-dev/ha-sdk-typescript\n- Python: https://github.com/hostafrica/ha-sdk-python\n- Go: https://github.com/hostafrica/ha-sdk-go\n- PHP: https://github.com/hostafrica/ha-sdk-php\n- Java: https://github.com/hostafrica/ha-sdk-java (coming soon)\n- C#: https://github.com/hostafrica/ha-sdk-csharp (coming soon)\n- Ruby: https://github.com/hostafrica/ha-sdk-ruby (coming soon)\n- Rust: https://github.com/hostafrica/ha-sdk-rust (coming soon)\n- Postman collection: https://api.hostafrica.com/docs/hostafrica-api.postman-collection.json\n\n## MCP Server\nWe provide a streamable MCP server that can be used to interact with the API. The endpoint is https://api.hostafrica.com/mcp and it uses the same authentication mechanism as the API.\n\n## Changelog\nWe will provide a changelog for the API with each major release.\n\n\n\n\n\n### Support and Feedback\nFor questions, bugs and feature requests specifically related to the API please create an issue[link] or discussion[link] on the repository.\n\nFor general support and feedback, please contact us at support@hostafrica.com.",
+        "description": "HostAfrica’s Public API provides reliable, programmatic control over VPS services with a broad set of industry-standard API developer tools. \nAs well as a RESTful API we provide a CLI and SDKs for a variety of languages as automation building blocks and a streamable MCP server for agent-driven, context-aware automation.\n\n## Authentication\nAuthentication is token-based and all endpoints require a Bearer token in the `Authorization` header:\n```\nAuthorization: Bearer <your-token>\n```\n\n\nAPI base URL is https://api.hostafrica.com/\n\n## Token generation\nYou can obtain a token for the API by logging into the HostAfrica Client Area page at https://panel.hostafrica.com/login with your HostAfrica account.\nIt can be configured in the API settings section of the Client Area.\nThe token will have the same privileges as the owning client. You can also rotate or revoke a token at any time in the same section of the Client Area.\n\n## Rate Limiting\nThe number of requests to the API per time period is limited. If you exceed this limit you will receive a `429 Too Many Requests` error.\nOur provided SDKs and CLI will automatically retry certain requests and these settings can be overridden.\nYour IP address may get temporarily blocked if you exceed the rate limit too often.\n\n## Error Handling\nStandard HTTP status code responses are returned for requests and the JSON response body contains human-readable messages for both successful and failed requests. \n\n## Developer Tools\nWe provide repositories with SDKs and code examples for a variety of languages, a CLI and a streamble MCP server.\n- CLI: https://github.com/hostafrica/ha-cli\n- Node/TypeScript: https://github.com/hostafrica-dev/ha-sdk-typescript\n- Python: https://github.com/hostafrica/ha-sdk-python\n- Go: https://github.com/hostafrica/ha-sdk-go\n- PHP: https://github.com/hostafrica/ha-sdk-php\n- Java: https://github.com/hostafrica/ha-sdk-java (coming soon)\n- C#: https://github.com/hostafrica/ha-sdk-csharp (coming soon)\n- Ruby: https://github.com/hostafrica/ha-sdk-ruby (coming soon)\n- Rust: https://github.com/hostafrica/ha-sdk-rust (coming soon)\n- Postman collection: https://api.hostafrica.com/docs/hostafrica-api.postman-collection.json\n\n## MCP Server\nWe provide a streamable MCP server that can be used to interact with the API. We provide two endpoints.\nThe first endpoint is https://api.hostafrica.com/mcp and it uses the same authentication mechanism as the API.\nThis endpoint is suitable for use with MCP clients that support the Bearer token authentication mechanism.\nThe second endpoint is https://mcp.hostafrica.com/mcp which is an OAuth 2.0 endpoint.\nIt is compliant with OAuth-compliant MCP clients including https://claude.ai (web) and Claude desktop.\nWhen using the OAuth 2.0 endpoint, you will be asked to authenticate with your HostAfrica API token.\n\n## Changelog\nWe will provide a changelog for the API with each major release.\n\n\n\n\n\n### Support and Feedback\nFor questions, bugs and feature requests specifically related to the API please create an issue[link] or discussion[link] on the repository.\n\nFor general support and feedback, please contact us at support@hostafrica.com.",
         "x-scalar-sdk-installation": [
             {
                 "lang": "Python",
@@ -48,6 +48,144 @@
         ]
     },
     "paths": {
+        "/dns/add-record": {
+            "post": {
+                "description": "Adds a DNS record to a zone via DNSManager.",
+                "operationId": "AddDnsRecord",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddDnsRecordRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "AddDnsRecord 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddDnsRecordResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "DNS"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
         "/dns/create-rdns-record": {
             "post": {
                 "description": "Creates (or upserts) a PTR record for the authenticated client. If the client already owns a PTR for the same (serverid, ip) it is updated in place; if another client owns it a 409 is returned.",
@@ -310,6 +448,538 @@
                 ]
             }
         },
+        "/dns/delete-record": {
+            "post": {
+                "description": "Deletes a DNS record from a zone via DNSManager.",
+                "operationId": "DeleteDnsRecord",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeleteDnsRecordRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "DeleteDnsRecord 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeleteDnsRecordResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "DNS"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/dns/edit-record": {
+            "post": {
+                "description": "Edits a DNS record in a zone via DNSManager.",
+                "operationId": "EditDnsRecord",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditDnsRecordRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "EditDnsRecord 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EditDnsRecordResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "DNS"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/dns/get-zone": {
+            "post": {
+                "description": "Retrieves DNS zone details and records for an owned domain.",
+                "operationId": "GetDnsZoneDetails",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetDnsZoneDetailsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "GetDnsZoneDetails 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetDnsZoneDetailsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "DNS"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/dns/list-create-candidates": {
+            "post": {
+                "description": "Lists domains and services eligible for new DNS zone creation.",
+                "operationId": "ListDnsCreateCandidates",
+                "responses": {
+                    "200": {
+                        "description": "ListDnsCreateCandidates 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListDnsCreateCandidatesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "DNS"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
         "/dns/list-rdns-records": {
             "post": {
                 "description": "Lists all rDNS (PTR) records and available services for the authenticated client",
@@ -418,6 +1088,124 @@
                 },
                 "tags": [
                     "DNS"
+                ]
+            }
+        },
+        "/dns/list-zones": {
+            "post": {
+                "description": "Lists DNS zones belonging to the authenticated client.",
+                "operationId": "ListDnsZones",
+                "responses": {
+                    "200": {
+                        "description": "ListDnsZones 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListDnsZonesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "DNS"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
                 ]
             }
         },
@@ -707,6 +1495,144 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/GetDomainContactsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/list-dnssec-records": {
+            "post": {
+                "description": "Lists DNSSEC DS records configured for an owned domain.",
+                "operationId": "ListDnssecRecords",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ListDnssecRecordsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "ListDnssecRecords 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListDnssecRecordsResponseContent"
                                 }
                             }
                         }
@@ -1326,6 +2252,144 @@
                 ]
             }
         },
+        "/domain/update-domain-contacts": {
+            "post": {
+                "description": "Updates WHOIS contact information for an owned domain. Each role (Registrant, Admin, Tech, Billing) uses a source type: owner (client profile), contact (saved WHMCS contact id), or custom (inline WHOIS fields). WHOIS values must be nested under fields; for owner and contact they are flattened upstream when present.",
+                "operationId": "UpdateDomainContacts",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateDomainContactsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "UpdateDomainContacts 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateDomainContactsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
         "/domain/update-domain-settings": {
             "post": {
                 "description": "Updates a single domain setting (auto-renew, ID protection, or paid addons). One setting per request.",
@@ -1347,6 +2411,144 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UpdateDomainSettingsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Domains"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/domain/update-nameservers": {
+            "post": {
+                "description": "Updates nameservers for an owned domain. ns1 and ns2 are required; ns3 through ns5 are optional.",
+                "operationId": "UpdateDomainNameservers",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateDomainNameserversRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "UpdateDomainNameservers 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateDomainNameserversResponseContent"
                                 }
                             }
                         }
@@ -2131,7 +3333,7 @@
         },
         "/vps/create-order": {
             "post": {
-                "description": "Creates an order through checkout. Returns payment status; on failure also includes payment_error with code and message.",
+                "description": "Creates an order for a VPS service. Returns payment status; on failure also includes payment_error with code and message.",
                 "operationId": "CreateOrder",
                 "requestBody": {
                     "content": {
@@ -2514,7 +3716,7 @@
         },
         "/vps/create-snapshot-job": {
             "post": {
-                "description": "[Under development] Creates a new snapshot job for a VPS service. Use period='hourly' with run_every, or period='daily' with days and start_time.",
+                "description": "Creates a new snapshot job for a VPS service. Use period='hourly' with run_every, or period='daily' with days and start_time.",
                 "operationId": "CreateSnapshotJob",
                 "requestBody": {
                     "content": {
@@ -3431,7 +4633,7 @@
         },
         "/vps/delete-snapshot-job": {
             "post": {
-                "description": "[Under development]Deletes a snapshot job from a VPS service",
+                "description": "Deletes a snapshot job from a VPS service",
                 "operationId": "DeleteSnapshotJob",
                 "requestBody": {
                     "content": {
@@ -5123,7 +6325,7 @@
         },
         "/vps/list-snapshot-jobs": {
             "post": {
-                "description": "[Under development]Retrieves the list of snapshot jobs for a VPS service",
+                "description": "Retrieves the list of snapshot jobs for a VPS service",
                 "operationId": "ListSnapshotJobs",
                 "requestBody": {
                     "content": {
@@ -7642,7 +8844,7 @@
         },
         "/vps/update-snapshot-job": {
             "post": {
-                "description": "[Under development] Updates an existing snapshot job. Only provide fields you want to change.",
+                "description": "Updates an existing snapshot job. Only provide fields you want to change.",
                 "operationId": "UpdateSnapshotJob",
                 "requestBody": {
                     "content": {
@@ -7773,7 +8975,7 @@
         },
         "/vps/validate-pricing": {
             "post": {
-                "description": "Validates pricing for one or more products, returning per-product breakdown and order summary",
+                "description": "Validates pricing for one or more VPC service products, returning per-product breakdown and order summary",
                 "operationId": "ValidatePricing",
                 "requestBody": {
                     "content": {
@@ -7895,6 +9097,41 @@
     },
     "components": {
         "schemas": {
+            "AddDnsRecordRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_name": {
+                        "type": "string",
+                        "description": "DNS zone domain name (FQDN); optional when zone_id is provided"
+                    },
+                    "zone_id": {
+                        "type": "string",
+                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details"
+                    },
+                    "record": {
+                        "$ref": "#/components/schemas/DnsRecordMutationRecord"
+                    }
+                },
+                "required": [
+                    "record",
+                    "zone_id"
+                ]
+            },
+            "AddDnsRecordResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/DnsRecordMutationData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
             "BackupCreateResponseData": {
                 "type": "object",
                 "description": "Response data for backup creation operation",
@@ -9309,6 +10546,41 @@
                     "status"
                 ]
             },
+            "DeleteDnsRecordRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_name": {
+                        "type": "string",
+                        "description": "DNS zone domain name (FQDN); optional when zone_id is provided"
+                    },
+                    "zone_id": {
+                        "type": "string",
+                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details"
+                    },
+                    "record": {
+                        "$ref": "#/components/schemas/DnsRecordMutationRecord"
+                    }
+                },
+                "required": [
+                    "record",
+                    "zone_id"
+                ]
+            },
+            "DeleteDnsRecordResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/DnsRecordMutationData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
             "DeleteFirewallRuleRequestContent": {
                 "type": "object",
                 "properties": {
@@ -9501,6 +10773,242 @@
                     "status"
                 ]
             },
+            "DnsCreateCandidateInfo": {
+                "type": "object",
+                "description": "A domain or service eligible for DNS zone creation",
+                "properties": {
+                    "domain_name": {
+                        "type": "string",
+                        "description": "Domain name when the candidate is a domain"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id when the candidate is a domain"
+                    },
+                    "relid": {
+                        "type": "integer",
+                        "description": "Related service id when the candidate is a hosting or addon service",
+                        "format": "int32"
+                    },
+                    "type": {
+                        "type": "integer",
+                        "description": "Zone type: 0=OTHER, 1=DOMAIN, 2=HOSTING, 3=ADDON",
+                        "format": "int32"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Display name for the candidate"
+                    }
+                }
+            },
+            "DnsRecordInfo": {
+                "type": "object",
+                "description": "A DNS record within a zone.\n\nRecord values are normalized to a flat `content` string. Structured record types use\nadditional top-level fields; the proxy maps these to upstream `data` / `rdata_raw` shapes:\n\n- **A / AAAA**: `content` is the IP address (`data.address`).\n- **CNAME**: `content` is the target hostname (`data.cname`).\n- **TXT**: `content` is the text value (`data.txtdata`).\n- **NS**: `content` is the nameserver hostname (`data.nsdname`).\n- **MX**: `content` is the mail exchange hostname; `priority` is the MX preference\n  (`data.exchange`, `data.preference`).\n- **SRV**: `content` is the target hostname; `priority`, `weight`, and `port` are the\n  SRV parameters (`data.target`, `data.priority`, `data.weight`, `data.port`).\n\nWhen upstream returns structured `rdata_raw` without a string `rdata` value, `content`\nand the type-specific fields are derived from `rdata_raw`.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Record identifier"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Record host/name (e.g. @, www, mail)"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Record type (e.g. A, AAAA, CNAME, MX, TXT, NS, SRV)"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "Primary record value: IP address (A/AAAA), hostname (CNAME/NS/MX/SRV), or text (TXT)"
+                    },
+                    "ttl": {
+                        "type": "integer",
+                        "description": "Time-to-live in seconds",
+                        "format": "int32"
+                    },
+                    "priority": {
+                        "type": "integer",
+                        "description": "MX preference when type is MX; SRV priority when type is SRV",
+                        "format": "int32"
+                    },
+                    "weight": {
+                        "type": "integer",
+                        "description": "SRV weight when type is SRV",
+                        "format": "int32"
+                    },
+                    "port": {
+                        "type": "integer",
+                        "description": "SRV port when type is SRV",
+                        "format": "int32"
+                    }
+                }
+            },
+            "DnsRecordMutationData": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DnsRecordInfo"
+                        },
+                        "description": "Updated DNS records when returned by upstream"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "DnsRecordMutationRecord": {
+                "type": "object",
+                "description": "DNS record fields for add, edit, or delete via DNSManager.\n\nSee `DnsRecordInfo` for how `content` and structured fields map to upstream record data.\nDelete requires only `id`, `name`, and `type`.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Record line/id from get-dns-zone-details; required for edit and delete"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Record host/name (e.g. @, www, mail); required for add"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Record type (e.g. A, AAAA, CNAME, MX, TXT, NS, SRV); required for add"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "Primary record value; required for add and edit. Meaning depends on type — see DnsRecordInfo"
+                    },
+                    "ttl": {
+                        "type": "integer",
+                        "description": "Time-to-live in seconds; defaults to 3600 on add when omitted",
+                        "format": "int32"
+                    },
+                    "priority": {
+                        "type": "integer",
+                        "description": "MX preference when type is MX; SRV priority when type is SRV",
+                        "format": "int32"
+                    },
+                    "weight": {
+                        "type": "integer",
+                        "description": "SRV weight when type is SRV",
+                        "format": "int32"
+                    },
+                    "port": {
+                        "type": "integer",
+                        "description": "SRV port when type is SRV; required for add and edit when type is SRV",
+                        "format": "int32"
+                    }
+                }
+            },
+            "DnsZoneInfo": {
+                "type": "object",
+                "description": "A DNS zone owned by the authenticated client",
+                "properties": {
+                    "zone_id": {
+                        "type": "string",
+                        "description": "DNS zone identifier"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id when the zone is tied to a domain"
+                    },
+                    "domain_name": {
+                        "type": "string",
+                        "description": "Zone domain name (FQDN)"
+                    },
+                    "hosting_id": {
+                        "type": "integer",
+                        "description": "Linked hosting service id; omitted when no hosting is linked",
+                        "format": "int32"
+                    },
+                    "type": {
+                        "type": "integer",
+                        "description": "Zone type: 0=OTHER, 1=DOMAIN, 2=HOSTING, 3=ADDON",
+                        "format": "int32"
+                    },
+                    "type_key": {
+                        "type": "string",
+                        "description": "Zone type key (e.g. other, domain, hosting, addon)"
+                    },
+                    "package_name": {
+                        "type": "string",
+                        "description": "Product or package name for the zone"
+                    },
+                    "has_hosting": {
+                        "$ref": "#/components/schemas/DomainHostingLink"
+                    },
+                    "has_dns_manager_zone": {
+                        "type": "boolean",
+                        "description": "Whether a DNS Manager zone exists for this domain name"
+                    }
+                },
+                "required": [
+                    "has_dns_manager_zone"
+                ]
+            },
+            "DnssecRecordInfo": {
+                "type": "object",
+                "description": "A DNSSEC DS record",
+                "properties": {
+                    "key_tag": {
+                        "type": "integer",
+                        "description": "DNSSEC key tag (0-65535)",
+                        "format": "int32"
+                    },
+                    "alg": {
+                        "type": "integer",
+                        "description": "DNSSEC algorithm (1-255)",
+                        "format": "int32"
+                    },
+                    "digest_type": {
+                        "type": "integer",
+                        "description": "DNSSEC digest type (1-255)",
+                        "format": "int32"
+                    },
+                    "digest": {
+                        "type": "string",
+                        "description": "Hex digest"
+                    }
+                },
+                "required": [
+                    "alg",
+                    "digest",
+                    "digest_type",
+                    "key_tag"
+                ]
+            },
+            "DomainAddonFeature": {
+                "type": "object",
+                "description": "Priced addon/feature block returned under available_features",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "product_desc": {
+                        "type": "string",
+                        "description": "Optional HTML product description from upstream"
+                    }
+                },
+                "required": [
+                    "description",
+                    "enabled",
+                    "price",
+                    "title"
+                ]
+            },
             "DomainAddons": {
                 "type": "object",
                 "description": "Optional add-ons available for a domain",
@@ -9559,24 +11067,323 @@
                     "status"
                 ]
             },
+            "DomainAvailableFeatures": {
+                "type": "object",
+                "description": "Feature flags and priced addons available for a domain",
+                "properties": {
+                    "eppcode": {
+                        "type": "boolean",
+                        "description": "Whether EPP/auth code retrieval is available"
+                    },
+                    "dnssec": {
+                        "type": "boolean",
+                        "description": "Whether DNSSEC management is available"
+                    },
+                    "private_nameservers": {
+                        "type": "boolean",
+                        "description": "Whether private/custom nameservers are supported"
+                    },
+                    "redirector": {
+                        "type": "boolean",
+                        "description": "Whether domain redirect is available"
+                    },
+                    "dnsmanagement": {
+                        "$ref": "#/components/schemas/DomainAddonFeature"
+                    },
+                    "emailforwarding": {
+                        "$ref": "#/components/schemas/DomainAddonFeature"
+                    },
+                    "idprotection": {
+                        "$ref": "#/components/schemas/DomainAddonFeature"
+                    }
+                }
+            },
+            "DomainContactFields": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "string"
+                },
+                "description": "WHOIS contact field values for one role; field names vary by TLD/registrar"
+            },
+            "DomainContactSourceType": {
+                "type": "string",
+                "enum": [
+                    "owner",
+                    "contact",
+                    "custom"
+                ]
+            },
+            "DomainContactUpdate": {
+                "type": "object",
+                "description": "Update payload for one WHOIS contact role",
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/DomainContactSourceType"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "description": "Saved WHMCS contact id; required when type is contact",
+                        "format": "int32"
+                    },
+                    "fields": {
+                        "$ref": "#/components/schemas/DomainContactFields"
+                    }
+                },
+                "required": [
+                    "type"
+                ]
+            },
+            "DomainContactUpdates": {
+                "type": "object",
+                "description": "WHOIS contact updates keyed by Registrant, Admin, Tech, and Billing",
+                "properties": {
+                    "Registrant": {
+                        "$ref": "#/components/schemas/DomainContactUpdate"
+                    },
+                    "Admin": {
+                        "$ref": "#/components/schemas/DomainContactUpdate"
+                    },
+                    "Tech": {
+                        "$ref": "#/components/schemas/DomainContactUpdate"
+                    },
+                    "Billing": {
+                        "$ref": "#/components/schemas/DomainContactUpdate"
+                    }
+                }
+            },
+            "DomainContacts": {
+                "type": "object",
+                "description": "WHOIS contacts keyed by contact role",
+                "properties": {
+                    "Registrant": {
+                        "$ref": "#/components/schemas/DomainContactFields"
+                    },
+                    "Admin": {
+                        "$ref": "#/components/schemas/DomainContactFields"
+                    },
+                    "Tech": {
+                        "$ref": "#/components/schemas/DomainContactFields"
+                    },
+                    "Billing": {
+                        "$ref": "#/components/schemas/DomainContactFields"
+                    }
+                }
+            },
+            "DomainDetail": {
+                "type": "object",
+                "description": "Full domain details returned by get-domain",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Domain operation type (e.g. Register, Transfer)"
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": "Fully qualified domain name"
+                    },
+                    "sld": {
+                        "type": "string",
+                        "description": "Second-level domain label (e.g. dandelyn)"
+                    },
+                    "tld": {
+                        "type": "string",
+                        "description": "Top-level domain including dot (e.g. .co.za)"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Domain status (e.g. Active, Expired, Cancelled)"
+                    },
+                    "period": {
+                        "type": "integer",
+                        "description": "Registration or billing period in years",
+                        "format": "int32"
+                    },
+                    "registrationdate": {
+                        "type": "string",
+                        "description": "Registration timestamp from upstream (ISO 8601)"
+                    },
+                    "donotrenew": {
+                        "type": "integer",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "Renewal flag: 0 = renew, 1 = do not renew",
+                        "format": "int32"
+                    },
+                    "id_protection": {
+                        "type": "integer",
+                        "maximum": 1,
+                        "minimum": 0,
+                        "description": "WHOIS privacy enabled: 0 = off, 1 = on",
+                        "format": "int32"
+                    },
+                    "id_protection_supported": {
+                        "type": "boolean",
+                        "description": "Whether the TLD supports ID protection"
+                    },
+                    "firstpaymentamount": {
+                        "type": "string",
+                        "description": "First payment amount as a decimal string"
+                    },
+                    "recurringamount": {
+                        "type": "string",
+                        "description": "Recurring amount as a decimal string (e.g. \"149.99\")"
+                    },
+                    "dnsmanagement": {
+                        "type": "boolean",
+                        "description": "Whether DNS management addon is currently enabled"
+                    },
+                    "emailforwarding": {
+                        "type": "boolean",
+                        "description": "Whether email forwarding addon is currently enabled"
+                    },
+                    "is_premium": {
+                        "type": "boolean",
+                        "description": "Whether the domain is premium"
+                    },
+                    "lock_status": {
+                        "type": "string",
+                        "description": "Registrar lock status (e.g. locked, unlocked, unavailable)"
+                    },
+                    "grace_period": {
+                        "type": "integer",
+                        "description": "Grace period length in days",
+                        "format": "int32"
+                    },
+                    "redemption_period": {
+                        "type": "integer",
+                        "description": "Redemption period length in days",
+                        "format": "int32"
+                    },
+                    "grace_period_fee": {
+                        "type": "integer",
+                        "description": "Grace period renewal fee",
+                        "format": "int32"
+                    },
+                    "redemption_period_fee": {
+                        "type": "integer",
+                        "description": "Redemption period renewal fee",
+                        "format": "int32"
+                    },
+                    "in_grace": {
+                        "type": "boolean",
+                        "description": "Whether the domain is currently in grace period"
+                    },
+                    "in_redemption": {
+                        "type": "boolean",
+                        "description": "Whether the domain is currently in redemption period"
+                    },
+                    "expirydate": {
+                        "type": "string",
+                        "description": "Domain expiry date (YYYY-MM-DD or ISO 8601 from upstream)"
+                    },
+                    "nextinvoicedate": {
+                        "type": "string",
+                        "description": "Next invoice date (YYYY-MM-DD or ISO 8601 from upstream)"
+                    },
+                    "nextduedate": {
+                        "type": "string",
+                        "description": "Next due date (YYYY-MM-DD or ISO 8601 from upstream)"
+                    },
+                    "available_features": {
+                        "$ref": "#/components/schemas/DomainAvailableFeatures"
+                    },
+                    "domain_nameservers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Currently applied nameserver hostnames"
+                    },
+                    "default_nameservers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Default nameserver hostnames for this domain/product"
+                    },
+                    "ns_changing": {
+                        "type": "string",
+                        "description": "Nameserver change state (e.g. own, pending)"
+                    },
+                    "has_hosting": {
+                        "$ref": "#/components/schemas/DomainHostingLink"
+                    },
+                    "has_dns_manager_zone": {
+                        "type": "boolean",
+                        "description": "Whether a DNS Manager zone exists for this domain name"
+                    },
+                    "expiry_countdown": {
+                        "$ref": "#/components/schemas/DomainExpiryCountdown"
+                    },
+                    "evaluation": {
+                        "description": "Domain evaluator result when enabled; null when unavailable"
+                    },
+                    "domain_evaluation_available": {
+                        "type": "boolean",
+                        "description": "Whether domain evaluation is available for this domain/account"
+                    },
+                    "has_redirect": {
+                        "description": "Configured redirect details when present; null when none"
+                    },
+                    "no_epp": {
+                        "type": "boolean",
+                        "description": "True when EPP/auth code retrieval is disabled for this domain"
+                    }
+                },
+                "required": [
+                    "domain",
+                    "domain_id",
+                    "donotrenew",
+                    "has_dns_manager_zone",
+                    "id_protection",
+                    "id_protection_supported",
+                    "period",
+                    "recurringamount",
+                    "status",
+                    "type"
+                ]
+            },
+            "DomainExpiryCountdown": {
+                "type": "object",
+                "description": "Countdown until domain expiry",
+                "properties": {
+                    "years": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "months": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "days": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "days",
+                    "months",
+                    "years"
+                ]
+            },
             "DomainHostingLink": {
                 "type": "object",
                 "description": "Linked hosting service for a domain",
                 "properties": {
                     "hosting_id": {
                         "type": "integer",
-                        "description": "Linked hosting service id",
+                        "description": "Linked hosting service id; omitted when no hosting is linked",
                         "format": "int32"
                     },
                     "module": {
                         "type": "string",
-                        "description": "Hosting module name (e.g. cpanel)"
+                        "description": "Hosting module name (e.g. cpanel); omitted when no hosting is linked"
                     }
-                },
-                "required": [
-                    "hosting_id",
-                    "module"
-                ]
+                }
             },
             "DomainInfo": {
                 "type": "object",
@@ -9646,6 +11453,10 @@
                     },
                     "evaluation": {
                         "description": "Domain evaluator result when enabled; null when unavailable"
+                    },
+                    "no_epp": {
+                        "type": "boolean",
+                        "description": "True when EPP/auth code retrieval is disabled for this domain"
                     }
                 },
                 "required": [
@@ -9660,6 +11471,32 @@
                     "status",
                     "type"
                 ]
+            },
+            "DomainNameservers": {
+                "type": "object",
+                "description": "Nameserver hostnames applied to a domain",
+                "properties": {
+                    "ns1": {
+                        "type": "string",
+                        "description": "Primary nameserver hostname"
+                    },
+                    "ns2": {
+                        "type": "string",
+                        "description": "Secondary nameserver hostname"
+                    },
+                    "ns3": {
+                        "type": "string",
+                        "description": "Optional tertiary nameserver hostname"
+                    },
+                    "ns4": {
+                        "type": "string",
+                        "description": "Optional quaternary nameserver hostname"
+                    },
+                    "ns5": {
+                        "type": "string",
+                        "description": "Optional fifth nameserver hostname"
+                    }
+                }
             },
             "DomainPricing": {
                 "type": "object",
@@ -9891,6 +11728,41 @@
                     },
                     "data": {
                         "$ref": "#/components/schemas/VpsSimpleActionResponseData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "EditDnsRecordRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_name": {
+                        "type": "string",
+                        "description": "DNS zone domain name (FQDN); optional when zone_id is provided"
+                    },
+                    "zone_id": {
+                        "type": "string",
+                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details"
+                    },
+                    "record": {
+                        "$ref": "#/components/schemas/DnsRecordMutationRecord"
+                    }
+                },
+                "required": [
+                    "record",
+                    "zone_id"
+                ]
+            },
+            "EditDnsRecordResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/DnsRecordMutationData"
                     }
                 },
                 "required": [
@@ -10133,6 +12005,81 @@
                     "status"
                 ]
             },
+            "GetDnsZoneDetailsData": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id"
+                    },
+                    "zone_id": {
+                        "type": "string",
+                        "description": "DNS zone identifier"
+                    },
+                    "zone_exists": {
+                        "type": "boolean",
+                        "description": "True when a DNS zone exists for this domain"
+                    },
+                    "management_available": {
+                        "type": "boolean",
+                        "description": "True when DNS management is available for this domain"
+                    },
+                    "domain_nameservers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Configured domain nameservers"
+                    },
+                    "ns_changing": {
+                        "type": "string",
+                        "description": "Nameserver change state (e.g. own, pending)"
+                    },
+                    "package_settings": {
+                        "description": "Package quotas and allowed record types from upstream"
+                    },
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DnsRecordInfo"
+                        },
+                        "description": "DNS records in the zone"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "GetDnsZoneDetailsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id - must be sent as a string"
+                    }
+                },
+                "required": [
+                    "domain_id"
+                ]
+            },
+            "GetDnsZoneDetailsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/GetDnsZoneDetailsData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
             "GetDomainContactsData": {
                 "type": "object",
                 "description": "Domain contact information returned by get-domain-contacts",
@@ -10150,7 +12097,7 @@
                         "description": "Fully qualified domain name"
                     },
                     "contacts": {
-                        "description": "Contact roles keyed by Registrant, Admin, Tech, and Billing, or an array of contact records. Inner field names and values vary by TLD/registrar."
+                        "$ref": "#/components/schemas/DomainContacts"
                     }
                 },
                 "required": [
@@ -10196,7 +12143,7 @@
                         "description": "Status message indicating the result"
                     },
                     "domain": {
-                        "$ref": "#/components/schemas/DomainInfo"
+                        "$ref": "#/components/schemas/DomainDetail"
                     }
                 },
                 "required": [
@@ -10389,6 +12336,132 @@
                     },
                     "data": {
                         "$ref": "#/components/schemas/ServiceBackupsResponseData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "ListDnsCreateCandidatesData": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "candidates": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DnsCreateCandidateInfo"
+                        },
+                        "description": "Domains and services eligible for new DNS zones"
+                    },
+                    "total": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "candidates",
+                    "message",
+                    "total"
+                ]
+            },
+            "ListDnsCreateCandidatesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/ListDnsCreateCandidatesData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "ListDnsZonesData": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "zones": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DnsZoneInfo"
+                        },
+                        "description": "DNS zones owned by the authenticated client"
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "Total number of zones",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "message",
+                    "total",
+                    "zones"
+                ]
+            },
+            "ListDnsZonesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/ListDnsZonesData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "ListDnssecRecordsData": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DnssecRecordInfo"
+                        },
+                        "description": "DNSSEC DS records configured for the domain"
+                    }
+                },
+                "required": [
+                    "message",
+                    "records"
+                ]
+            },
+            "ListDnssecRecordsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id - must be sent as a string"
+                    }
+                },
+                "required": [
+                    "domain_id"
+                ]
+            },
+            "ListDnssecRecordsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/ListDnssecRecordsData"
                     }
                 },
                 "required": [
@@ -12354,6 +14427,121 @@
                 "required": [
                     "data",
                     "message"
+                ]
+            },
+            "UpdateDomainContactsData": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id when returned by upstream"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "UpdateDomainContactsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id - must be sent as a string"
+                    },
+                    "contacts": {
+                        "$ref": "#/components/schemas/DomainContactUpdates"
+                    }
+                },
+                "required": [
+                    "contacts",
+                    "domain_id"
+                ]
+            },
+            "UpdateDomainContactsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/UpdateDomainContactsData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "UpdateDomainNameserversData": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "Status message indicating the result"
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": "Domain name (FQDN)"
+                    },
+                    "nameservers": {
+                        "$ref": "#/components/schemas/DomainNameservers"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "UpdateDomainNameserversRequestContent": {
+                "type": "object",
+                "properties": {
+                    "domain_id": {
+                        "type": "string",
+                        "description": "Domain service id - must be sent as a string"
+                    },
+                    "ns1": {
+                        "type": "string",
+                        "description": "Primary nameserver hostname"
+                    },
+                    "ns2": {
+                        "type": "string",
+                        "description": "Secondary nameserver hostname"
+                    },
+                    "ns3": {
+                        "type": "string",
+                        "description": "Optional tertiary nameserver hostname"
+                    },
+                    "ns4": {
+                        "type": "string",
+                        "description": "Optional quaternary nameserver hostname"
+                    },
+                    "ns5": {
+                        "type": "string",
+                        "description": "Optional fifth nameserver hostname"
+                    }
+                },
+                "required": [
+                    "domain_id",
+                    "ns1",
+                    "ns2"
+                ]
+            },
+            "UpdateDomainNameserversResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/UpdateDomainNameserversData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
                 ]
             },
             "UpdateDomainSettingsData": {
