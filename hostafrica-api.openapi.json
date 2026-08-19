@@ -5156,7 +5156,7 @@
         },
         "/vps/get-details": {
             "post": {
-                "description": "Gets detailed information about a VPS service including configuration, network settings, and statistics",
+                "description": "Gets detailed information about a VPS service including configuration, network settings, and statistics. Credentials.password is always \"<redacted>\"; plaintext passwords are never returned. To retrieve the password securely, use GetEncryptedPassword (/vps/get-encrypted-password).",
                 "operationId": "GetVpsDetails",
                 "requestBody": {
                     "content": {
@@ -5175,6 +5175,137 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/GetVpsDetailsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "VPS Management"
+                ]
+            }
+        },
+        "/vps/get-encrypted-password": {
+            "post": {
+                "description": "Retrieves the VPS username and root password without exposing plaintext over the API. Send a PEM-encoded RSA 4096-bit public key; the API encrypts the password with RSA-OAEP (SHA-256), and returns base64 ciphertext plus encryption metadata. Never send the private key. Invalid or non-4096-bit keys return HTTP 422 ValidationError. Generate a key with: openssl genrsa -out private.pem 4096 && openssl rsa -in private.pem -pubout -out public.pem. Decrypt with: echo CIPHERTEXT | base64 -d | openssl pkeyutl -decrypt -inkey private.pem -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 (macOS: base64 -D).",
+                "operationId": "GetEncryptedPassword",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetEncryptedPasswordRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "GetEncryptedPassword 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetEncryptedPasswordResponseContent"
                                 }
                             }
                         }
@@ -11774,6 +11905,28 @@
                 "type": "object",
                 "description": "Empty object for operations that don't return data"
             },
+            "EncryptedPasswordResponseData": {
+                "type": "object",
+                "description": "Response data for get-encrypted-password",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "description": "Username for VPS access (plaintext)"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Base64-encoded ciphertext of the VPS password. Produced with RSA-OAEP (SHA-256) and the request public_key. Decode from base64, then decrypt with the matching private key via openssl pkeyutl -decrypt -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256."
+                    },
+                    "encryption": {
+                        "$ref": "#/components/schemas/PasswordEncryptionInfo"
+                    }
+                },
+                "required": [
+                    "encryption",
+                    "password",
+                    "username"
+                ]
+            },
             "FirewallListResponseData": {
                 "type": "object",
                 "description": "Response data for firewall list operation",
@@ -12171,6 +12324,38 @@
                     },
                     "data": {
                         "$ref": "#/components/schemas/GetDomainData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "GetEncryptedPasswordRequestContent": {
+                "type": "object",
+                "properties": {
+                    "service_id": {
+                        "type": "string",
+                        "description": "Service ID - must be sent as a string"
+                    },
+                    "public_key": {
+                        "type": "string",
+                        "description": "PEM-encoded RSA public key only (never the private key). Accepts SPKI (`-----BEGIN PUBLIC KEY-----`) or PKCS#1 (`-----BEGIN RSA PUBLIC KEY-----`). Must be exactly 4096-bit. Used with RSA-OAEP and SHA-256 to encrypt the password."
+                    }
+                },
+                "required": [
+                    "public_key",
+                    "service_id"
+                ]
+            },
+            "GetEncryptedPasswordResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/EncryptedPasswordResponseData"
                     }
                 },
                 "required": [
@@ -13015,11 +13200,20 @@
                     "novnc_redirect_url": {
                         "type": "string",
                         "description": "Redirect URL for the noVNC console"
+                    },
+                    "mode": {
+                        "type": "string",
+                        "description": "Console connection mode"
+                    },
+                    "websocket_url": {
+                        "type": "string",
+                        "description": "WebSocket URL for proxied console access"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Password for proxied console access"
                     }
-                },
-                "required": [
-                    "novnc_redirect_url"
-                ]
+                }
             },
             "NoVncConsoleResponseData": {
                 "type": "object",
@@ -13307,6 +13501,35 @@
                 "required": [
                     "code",
                     "message"
+                ]
+            },
+            "PasswordEncryptionInfo": {
+                "type": "object",
+                "description": "Encryption metadata for an RSA-OAEP encrypted password",
+                "properties": {
+                    "algorithm": {
+                        "type": "string",
+                        "description": "Asymmetric encryption algorithm. Always \"RSA-OAEP\"."
+                    },
+                    "hash": {
+                        "type": "string",
+                        "description": "OAEP hash / MGF1 hash function. Always \"SHA-256\"."
+                    },
+                    "keySize": {
+                        "type": "integer",
+                        "description": "RSA modulus size in bits. Always 4096.",
+                        "format": "int32"
+                    },
+                    "encoding": {
+                        "type": "string",
+                        "description": "Encoding of the password ciphertext field. Always \"base64\" (standard alphabet, not URL-safe)."
+                    }
+                },
+                "required": [
+                    "algorithm",
+                    "encoding",
+                    "hash",
+                    "keySize"
                 ]
             },
             "PaymentError": {
@@ -15632,7 +15855,7 @@
                     },
                     "password": {
                         "type": "string",
-                        "description": "Password for VPS access"
+                        "description": "Password for VPS access. Always returned as \"<redacted>\" from get-details; plaintext passwords are never included in API responses."
                     }
                 },
                 "required": [
@@ -15665,9 +15888,9 @@
                     "ip_addresses": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "$ref": "#/components/schemas/VpsIpAddressDetail"
                         },
-                        "description": "List of IP addresses assigned to the VPS"
+                        "description": "List of IP addresses assigned to the VPS, including subnet, gateway, and MAC"
                     },
                     "credentials": {
                         "$ref": "#/components/schemas/VpsCredentials"
@@ -15722,6 +15945,35 @@
                         "description": "Human-readable total disk space (e.g., '100 GB')"
                     }
                 }
+            },
+            "VpsIpAddressDetail": {
+                "type": "object",
+                "description": "Detailed IP address assignment for a VPS",
+                "properties": {
+                    "ip": {
+                        "type": "string",
+                        "description": "Primary IP address"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "IP address (may mirror ip)"
+                    },
+                    "subnet": {
+                        "type": "string",
+                        "description": "Subnet mask"
+                    },
+                    "gateway": {
+                        "type": "string",
+                        "description": "Gateway address"
+                    },
+                    "mac": {
+                        "type": "string",
+                        "description": "MAC address when available"
+                    }
+                },
+                "required": [
+                    "ip"
+                ]
             },
             "VpsMemoryInfo": {
                 "type": "object",
@@ -15870,8 +16122,11 @@
                         "description": "Hostname of the VM"
                     },
                     "boot_devices": {
-                        "type": "string",
-                        "description": "Boot devices configuration"
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Boot devices configuration (e.g., scsi0, scsi1)"
                     },
                     "vmid": {
                         "type": "string",
