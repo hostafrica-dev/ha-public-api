@@ -48,9 +48,265 @@
         ]
     },
     "paths": {
+        "/billing/get-invoice-details": {
+            "post": {
+                "description": "Gets details for a single invoice, including line items, payee information, and transactions",
+                "operationId": "GetInvoiceDetails",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetInvoiceDetailsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "GetInvoiceDetails 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetInvoiceDetailsResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ResourceNotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Billing"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
+        "/billing/list-invoices": {
+            "post": {
+                "description": "Lists invoices for the authenticated user",
+                "operationId": "ListInvoices",
+                "responses": {
+                    "200": {
+                        "description": "ListInvoices 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListInvoicesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "UnauthorizedError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "ValidationError 422 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "InternalServiceError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InternalServiceErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "ServiceUnavailableError 503 response",
+                        "headers": {
+                            "Retry-After": {
+                                "description": "Number of seconds to wait before retrying",
+                                "schema": {
+                                    "type": "integer",
+                                    "description": "Number of seconds to wait before retrying",
+                                    "format": "int32"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Billing"
+                ],
+                "x-badges": [
+                    {
+                        "name": "New",
+                        "color": "#5aa7fa",
+                        "position": "before"
+                    }
+                ]
+            }
+        },
         "/dns/add-record": {
             "post": {
-                "description": "Adds a DNS record to a zone via DNSManager.",
+                "description": "Adds a DNS record to a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.",
                 "operationId": "AddDnsRecord",
                 "requestBody": {
                     "content": {
@@ -450,7 +706,7 @@
         },
         "/dns/delete-record": {
             "post": {
-                "description": "Deletes a DNS record from a zone via DNSManager.",
+                "description": "Deletes a DNS record from a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.",
                 "operationId": "DeleteDnsRecord",
                 "requestBody": {
                     "content": {
@@ -588,7 +844,7 @@
         },
         "/dns/edit-record": {
             "post": {
-                "description": "Edits a DNS record in a zone via DNSManager.",
+                "description": "Edits a DNS record in a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.",
                 "operationId": "EditDnsRecord",
                 "requestBody": {
                     "content": {
@@ -726,7 +982,7 @@
         },
         "/dns/get-zone": {
             "post": {
-                "description": "Retrieves DNS zone details and records for an owned domain.",
+                "description": "Retrieves DNS zone details and records for an owned domain. Omit backend for the legacy DNS Manager (v1) path; set backend from list-dns-zones to route DirectAdmin zones to v2.",
                 "operationId": "GetDnsZoneDetails",
                 "requestBody": {
                     "content": {
@@ -9233,19 +9489,30 @@
                 "properties": {
                     "domain_name": {
                         "type": "string",
-                        "description": "DNS zone domain name (FQDN); optional when zone_id is provided"
+                        "description": "DNS zone domain name (FQDN); optional for dns_manager when zone_id is provided. Not forwarded on DirectAdmin mutations."
                     },
                     "zone_id": {
                         "type": "string",
-                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details"
+                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details; required for dns_manager / legacy callers"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "WHMCS domain id from list-dns-zones; required when backend is directadmin"
+                    },
+                    "service_id": {
+                        "type": "integer",
+                        "description": "Optional WHMCS hosting service id from list-dns-zones hosting_id. Not forwarded on DirectAdmin mutations.",
+                        "format": "int32"
+                    },
+                    "backend": {
+                        "$ref": "#/components/schemas/DnsBackend"
                     },
                     "record": {
                         "$ref": "#/components/schemas/DnsRecordMutationRecord"
                     }
                 },
                 "required": [
-                    "record",
-                    "zone_id"
+                    "record"
                 ]
             },
             "AddDnsRecordResponseContent": {
@@ -10682,19 +10949,30 @@
                 "properties": {
                     "domain_name": {
                         "type": "string",
-                        "description": "DNS zone domain name (FQDN); optional when zone_id is provided"
+                        "description": "DNS zone domain name (FQDN); optional for dns_manager when zone_id is provided. Not forwarded on DirectAdmin mutations."
                     },
                     "zone_id": {
                         "type": "string",
-                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details"
+                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details; required for dns_manager / legacy callers"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "WHMCS domain id from list-dns-zones; required when backend is directadmin"
+                    },
+                    "service_id": {
+                        "type": "integer",
+                        "description": "Optional WHMCS hosting service id from list-dns-zones hosting_id. Not forwarded on DirectAdmin mutations.",
+                        "format": "int32"
+                    },
+                    "backend": {
+                        "$ref": "#/components/schemas/DnsBackend"
                     },
                     "record": {
                         "$ref": "#/components/schemas/DnsRecordMutationRecord"
                     }
                 },
                 "required": [
-                    "record",
-                    "zone_id"
+                    "record"
                 ]
             },
             "DeleteDnsRecordResponseContent": {
@@ -10904,6 +11182,14 @@
                     "status"
                 ]
             },
+            "DnsBackend": {
+                "type": "string",
+                "description": "Upstream DNS management backend for a zone.\n\n- `dns_manager` — WHMCS DNS Manager\n- `directadmin` — DirectAdmin DNS",
+                "enum": [
+                    "dns_manager",
+                    "directadmin"
+                ]
+            },
             "DnsCreateCandidateInfo": {
                 "type": "object",
                 "description": "A domain or service eligible for DNS zone creation",
@@ -10994,11 +11280,11 @@
             },
             "DnsRecordMutationRecord": {
                 "type": "object",
-                "description": "DNS record fields for add, edit, or delete via DNSManager.\n\nSee `DnsRecordInfo` for how `content` and structured fields map to upstream record data.\nDelete requires only `id`, `name`, and `type`.",
+                "description": "DNS record fields for add, edit, or delete via DNSManager.\n\nSee `DnsRecordInfo` for how `content` and structured fields map to upstream record data.\nDelete requires only `id`, `name`, and `type`. For edit and delete, `id` must be the\nnumeric zone line from get-dns-zone-details (a positive integer string).",
                 "properties": {
                     "id": {
                         "type": "string",
-                        "description": "Record line/id from get-dns-zone-details; required for edit and delete"
+                        "description": "Record line from get-dns-zone-details (positive integer string); required for edit and delete"
                     },
                     "name": {
                         "type": "string",
@@ -11074,6 +11360,9 @@
                     "has_dns_manager_zone": {
                         "type": "boolean",
                         "description": "Whether a DNS Manager zone exists for this domain name"
+                    },
+                    "backend": {
+                        "$ref": "#/components/schemas/DnsBackend"
                     }
                 },
                 "required": [
@@ -11871,19 +12160,30 @@
                 "properties": {
                     "domain_name": {
                         "type": "string",
-                        "description": "DNS zone domain name (FQDN); optional when zone_id is provided"
+                        "description": "DNS zone domain name (FQDN); optional for dns_manager when zone_id is provided. Not forwarded on DirectAdmin mutations."
                     },
                     "zone_id": {
                         "type": "string",
-                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details"
+                        "description": "DNS zone identifier from list-dns-zones or get-dns-zone-details; required for dns_manager / legacy callers"
+                    },
+                    "domain_id": {
+                        "type": "string",
+                        "description": "WHMCS domain id from list-dns-zones; required when backend is directadmin"
+                    },
+                    "service_id": {
+                        "type": "integer",
+                        "description": "Optional WHMCS hosting service id from list-dns-zones hosting_id. Not forwarded on DirectAdmin mutations.",
+                        "format": "int32"
+                    },
+                    "backend": {
+                        "$ref": "#/components/schemas/DnsBackend"
                     },
                     "record": {
                         "$ref": "#/components/schemas/DnsRecordMutationRecord"
                     }
                 },
                 "required": [
-                    "record",
-                    "zone_id"
+                    "record"
                 ]
             },
             "EditDnsRecordResponseContent": {
@@ -12212,6 +12512,9 @@
                     "domain_id": {
                         "type": "string",
                         "description": "Domain service id - must be sent as a string"
+                    },
+                    "backend": {
+                        "$ref": "#/components/schemas/DnsBackend"
                     }
                 },
                 "required": [
@@ -12363,6 +12666,48 @@
                     "status"
                 ]
             },
+            "GetInvoiceDetailsRequestContent": {
+                "type": "object",
+                "properties": {
+                    "invoice_id": {
+                        "type": "string",
+                        "description": "Invoice ID - must be sent as a string"
+                    }
+                },
+                "required": [
+                    "invoice_id"
+                ]
+            },
+            "GetInvoiceDetailsResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/GetInvoiceDetailsResponseData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "GetInvoiceDetailsResponseData": {
+                "type": "object",
+                "description": "Top-level data payload for the GetInvoiceDetails response",
+                "properties": {
+                    "invoice": {
+                        "$ref": "#/components/schemas/InvoiceDetails"
+                    },
+                    "selcom_metadata": {
+                        "$ref": "#/components/schemas/SelcomMetadata"
+                    }
+                },
+                "required": [
+                    "invoice"
+                ]
+            },
             "GetNoVncConsoleRequestContent": {
                 "type": "object",
                 "properties": {
@@ -12472,6 +12817,320 @@
                 "required": [
                     "data",
                     "message"
+                ]
+            },
+            "InvoiceDetails": {
+                "type": "object",
+                "description": "Full invoice details",
+                "properties": {
+                    "invoice_id": {
+                        "type": "string",
+                        "description": "Unique invoice identifier - must be sent as a string"
+                    },
+                    "invoice_number": {
+                        "type": "string",
+                        "description": "Human-readable invoice number when assigned"
+                    },
+                    "issued_to": {
+                        "$ref": "#/components/schemas/InvoiceIssuedTo"
+                    },
+                    "date": {
+                        "type": "string",
+                        "description": "Invoice issue date (ISO 8601)"
+                    },
+                    "due_date": {
+                        "type": "string",
+                        "description": "Invoice due date (ISO 8601)"
+                    },
+                    "date_paid": {
+                        "type": "string",
+                        "description": "Date the invoice was paid (ISO 8601), if paid"
+                    },
+                    "subtotal": {
+                        "type": "string",
+                        "description": "Invoice subtotal excluding tax as a decimal string"
+                    },
+                    "credit": {
+                        "type": "string",
+                        "description": "Credit applied as a decimal string"
+                    },
+                    "tax": {
+                        "type": "string",
+                        "description": "Primary tax amount as a decimal string"
+                    },
+                    "tax2": {
+                        "type": "string",
+                        "description": "Secondary tax amount as a decimal string. Omitted when a second tax is not configured."
+                    },
+                    "total": {
+                        "type": "string",
+                        "description": "Invoice total including tax as a decimal string"
+                    },
+                    "tax_rate": {
+                        "type": "string",
+                        "description": "Primary tax rate as a decimal string"
+                    },
+                    "tax_rate2": {
+                        "type": "string",
+                        "description": "Secondary tax rate as a decimal string. Omitted when a second tax is not configured."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Invoice status (e.g. Paid, Unpaid, Cancelled, Refunded)"
+                    },
+                    "payment_method": {
+                        "type": "string",
+                        "description": "Payment method identifier"
+                    },
+                    "total_due": {
+                        "type": "string",
+                        "description": "Amount still due as a decimal string"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "description": "Invoice notes"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InvoiceItem"
+                        },
+                        "description": "Invoice line items"
+                    },
+                    "transactions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InvoiceTransaction"
+                        },
+                        "description": "Payment and refund transactions on the invoice"
+                    }
+                },
+                "required": [
+                    "credit",
+                    "date",
+                    "due_date",
+                    "invoice_id",
+                    "invoice_number",
+                    "issued_to",
+                    "items",
+                    "notes",
+                    "payment_method",
+                    "status",
+                    "subtotal",
+                    "tax",
+                    "tax_rate",
+                    "total",
+                    "total_due",
+                    "transactions"
+                ]
+            },
+            "InvoiceIssuedTo": {
+                "type": "object",
+                "description": "Recipient / billed-to details on an invoice",
+                "properties": {
+                    "company_name": {
+                        "type": "string",
+                        "description": "Company name on the invoice"
+                    },
+                    "full_name": {
+                        "type": "string",
+                        "description": "Full name of the billed contact"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Street address"
+                    },
+                    "city_state_zip": {
+                        "type": "string",
+                        "description": "City, state/province, and postal code"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "ISO country code"
+                    },
+                    "country_name": {
+                        "type": "string",
+                        "description": "Country display name"
+                    },
+                    "tax": {
+                        "$ref": "#/components/schemas/InvoiceIssuedToTax"
+                    }
+                },
+                "required": [
+                    "address",
+                    "city_state_zip",
+                    "company_name",
+                    "country",
+                    "country_name",
+                    "full_name"
+                ]
+            },
+            "InvoiceIssuedToTax": {
+                "type": "object",
+                "description": "Tax applied to the invoice recipient",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Tax name or region label (e.g. SA)"
+                    },
+                    "rate": {
+                        "type": "number",
+                        "description": "Tax rate percentage",
+                        "format": "double"
+                    },
+                    "level": {
+                        "type": "integer",
+                        "description": "Tax level",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "level",
+                    "name",
+                    "rate"
+                ]
+            },
+            "InvoiceItem": {
+                "type": "object",
+                "description": "A single invoice line item",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Line item identifier",
+                        "format": "int32"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Line item type (e.g. Hosting)"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Line item description"
+                    },
+                    "amount": {
+                        "type": "string",
+                        "description": "Line item amount as a decimal string"
+                    },
+                    "taxed": {
+                        "type": "integer",
+                        "description": "Whether the line item is taxed (1 = taxed, 0 = not taxed)",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "amount",
+                    "description",
+                    "id",
+                    "taxed",
+                    "type"
+                ]
+            },
+            "InvoiceSummary": {
+                "type": "object",
+                "description": "Summary of an invoice in the list-invoices response",
+                "properties": {
+                    "invoice_id": {
+                        "type": "string",
+                        "description": "Unique invoice identifier - must be sent as a string"
+                    },
+                    "invoice_number": {
+                        "type": "string",
+                        "description": "Human-readable invoice number when assigned"
+                    },
+                    "date": {
+                        "type": "string",
+                        "description": "Invoice issue date (ISO 8601)"
+                    },
+                    "due_date": {
+                        "type": "string",
+                        "description": "Invoice due date (ISO 8601)"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Invoice status (e.g. Paid, Unpaid, Cancelled, Refunded)"
+                    },
+                    "tax": {
+                        "type": "string",
+                        "description": "Primary tax amount as a decimal string"
+                    },
+                    "tax2": {
+                        "type": "string",
+                        "description": "Secondary tax amount as a decimal string. Omitted when a second tax is not configured."
+                    },
+                    "tax_rate": {
+                        "type": "string",
+                        "description": "Primary tax rate as a decimal string"
+                    },
+                    "tax_rate2": {
+                        "type": "string",
+                        "description": "Secondary tax rate as a decimal string. Omitted when a second tax is not configured."
+                    },
+                    "total": {
+                        "type": "string",
+                        "description": "Invoice total including tax as a decimal string"
+                    },
+                    "subtotal": {
+                        "type": "string",
+                        "description": "Invoice subtotal excluding tax as a decimal string"
+                    },
+                    "grand_total": {
+                        "type": "string",
+                        "description": "Grand total as a decimal string"
+                    }
+                },
+                "required": [
+                    "date",
+                    "due_date",
+                    "grand_total",
+                    "invoice_id",
+                    "invoice_number",
+                    "status",
+                    "subtotal",
+                    "tax",
+                    "tax_rate",
+                    "total"
+                ]
+            },
+            "InvoiceTransaction": {
+                "type": "object",
+                "description": "A payment or refund transaction recorded against an invoice",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "Transaction identifier",
+                        "format": "int32"
+                    },
+                    "gateway": {
+                        "type": "string",
+                        "description": "Payment gateway identifier"
+                    },
+                    "date": {
+                        "type": "string",
+                        "description": "Transaction date (ISO 8601 or upstream date string)"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Transaction description"
+                    },
+                    "amount_in": {
+                        "type": "string",
+                        "description": "Amount received as a decimal string"
+                    },
+                    "fees": {
+                        "type": "string",
+                        "description": "Gateway fees as a decimal string"
+                    },
+                    "amount_out": {
+                        "type": "string",
+                        "description": "Amount paid out (e.g. refund) as a decimal string"
+                    },
+                    "trans_id": {
+                        "type": "string",
+                        "description": "Gateway transaction reference"
+                    }
+                },
+                "required": [
+                    "id"
                 ]
             },
             "ListBackupSchedulesRequestContent": {
@@ -12782,6 +13441,43 @@
                 "required": [
                     "data",
                     "status"
+                ]
+            },
+            "ListInvoicesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/OperationStatus"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/ListInvoicesResponseData"
+                    }
+                },
+                "required": [
+                    "data",
+                    "status"
+                ]
+            },
+            "ListInvoicesResponseData": {
+                "type": "object",
+                "description": "Top-level data payload for the ListInvoices response",
+                "properties": {
+                    "invoices": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InvoiceSummary"
+                        },
+                        "description": "List of invoices for the authenticated user"
+                    },
+                    "total_count": {
+                        "type": "integer",
+                        "description": "Total number of invoices returned",
+                        "format": "int32"
+                    }
+                },
+                "required": [
+                    "invoices",
+                    "total_count"
                 ]
             },
             "ListIsosRequestContent": {
@@ -14125,6 +14821,39 @@
                 "required": [
                     "data",
                     "status"
+                ]
+            },
+            "SelcomMetadata": {
+                "type": "object",
+                "description": "Selcom alt-gateway payment details included on an invoice when configured",
+                "properties": {
+                    "amount": {
+                        "type": "string",
+                        "description": "Due amount formatted for display (e.g. \"TZS 29,000.00\"). Non-TZS amounts are converted using the WHMCS currency rate."
+                    },
+                    "pesa_account": {
+                        "type": "string",
+                        "description": "Selcom Pesa account: 5-digit padded client id plus 6-digit padded invoice id"
+                    },
+                    "mobile_reference": {
+                        "type": "string",
+                        "description": "Mobile payment reference: 61107370 plus the same padded client and invoice ids"
+                    },
+                    "ussd_code": {
+                        "type": "string",
+                        "description": "USSD shortcode for Selcom (always *150*50*1#)"
+                    },
+                    "instructions": {
+                        "type": "string",
+                        "description": "WHMCS Selcom alt-gateway instructions HTML with placeholders filled"
+                    }
+                },
+                "required": [
+                    "amount",
+                    "instructions",
+                    "mobile_reference",
+                    "pesa_account",
+                    "ussd_code"
                 ]
             },
             "ServiceBackupsResponseData": {
